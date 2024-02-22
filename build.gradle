@@ -22,6 +22,12 @@ dependencies {
     compileOnly("io.micronaut:micronaut-http-client")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.postgresql:postgresql")
+
+    implementation("io.micronaut.validation:micronaut-validation")
+
+    implementation("io.micronaut.flyway:micronaut-flyway")
+    runtimeOnly("org.flywaydb:flyway-database-postgresql")
+
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
