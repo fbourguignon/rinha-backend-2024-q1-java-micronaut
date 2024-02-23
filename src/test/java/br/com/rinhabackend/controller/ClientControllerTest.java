@@ -3,15 +3,15 @@ package br.com.rinhabackend.controller;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 @MicronautTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ClientControllerTest {
 
     @Test
@@ -52,5 +52,47 @@ public class ClientControllerTest {
                 .then()
                 .statusCode(400)
                 .body("errors", equalTo(asList("O tamanho maximo da descricao e 10 caracteres")));
+    }
+
+
+    @Test
+    @Order(3)
+    @DisplayName("Deve retornar ao tentar criar uma transacao com um client que nao existe")
+    void create_transaction_account_not_exists(RequestSpecification spec) {
+        spec
+                .when()
+                .body("""
+                        {
+                           "valor": 1000,
+                           "tipo": "d",
+                           "descricao": "descricao"
+                        }
+                        """)
+                .contentType(ContentType.JSON)
+                .post("/clientes/6/transacoes")
+                .then()
+                .statusCode(404)
+                .body( equalTo("Cliente nao encontrado para transacionar"));
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Deve retornar sucesso ao criar uma transacao")
+    void create_transaction_with_valid_data(RequestSpecification spec) {
+        spec
+                .when()
+                .body("""
+                        {
+                           "valor": 1000,
+                           "tipo": "d",
+                           "descricao": "descricao"
+                        }
+                        """)
+                .contentType(ContentType.JSON)
+                .post("/clientes/5/transacoes")
+                .then()
+                .statusCode(200)
+                .body("limite", equalTo(500000),
+                "saldo",equalTo(0));
     }
 }
