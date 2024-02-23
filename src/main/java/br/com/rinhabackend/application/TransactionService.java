@@ -1,6 +1,6 @@
 package br.com.rinhabackend.application;
 
-import br.com.rinhabackend.domain.exception.AccountNotFoundException;
+import br.com.rinhabackend.domain.exception.ClientNotFoundException;
 import br.com.rinhabackend.domain.model.Client;
 import br.com.rinhabackend.domain.model.Transaction;
 import br.com.rinhabackend.domain.model.TransactionType;
@@ -25,7 +25,7 @@ public class TransactionService {
     @Transactional
     public void createTransaction(Integer clientId,Integer amount,String type,String description){
         final Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new AccountNotFoundException("Cliente nao encontrado para transacionar"));
+                .orElseThrow(() -> new ClientNotFoundException("Cliente nao encontrado para transacionar"));
 
         transactionRepository.save(new Transaction(null, amount, TransactionType.D, description, LocalTime.now(), client));
 
