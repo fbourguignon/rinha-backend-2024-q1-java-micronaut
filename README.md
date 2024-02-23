@@ -6,5 +6,13 @@
 ### Tecnologias utilizadas
 - [x] [Micronaut 4.3.2](https://micronaut.io/)
 - [x] [Micronaut Test Resources](https://micronaut-projects.github.io/micronaut-test-resources/latest/guide/)
+- [x] [CockroachDB](https://www.cockroachlabs.com/docs/cockroachcloud/quickstart)
 - [x] Java 17
 - [x] Docker
+- [x] GraalVM
+
+
+### Database
+![picture](images/database-model.png)
+
+
