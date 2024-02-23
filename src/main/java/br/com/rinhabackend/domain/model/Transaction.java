@@ -9,4 +9,7 @@ import java.time.LocalTime;
 @Introspected
 @MappedEntity
 public record Transaction(@Id @GeneratedValue @Nullable Long id, Integer amount, TransactionType type, String description, LocalTime createdAt,  @Relation(Relation.Kind.MANY_TO_ONE) @MappedProperty("client_id") Client client) {
+    public Transaction(Integer amount, TransactionType type, String description, Client client) {
+        this(null, amount, type, description, LocalTime.now(), client);
+    }
 }

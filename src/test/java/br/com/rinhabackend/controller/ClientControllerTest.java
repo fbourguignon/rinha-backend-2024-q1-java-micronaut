@@ -77,7 +77,7 @@ public class ClientControllerTest {
 
     @Test
     @Order(4)
-    @DisplayName("Deve retornar sucesso ao criar uma transacao")
+    @DisplayName("Deve retornar sucesso ao criar uma transacoes")
     void create_transaction_with_valid_data(RequestSpecification spec) {
         spec
                 .when()
@@ -85,7 +85,7 @@ public class ClientControllerTest {
                         {
                            "valor": 1000,
                            "tipo": "d",
-                           "descricao": "descricao"
+                           "descricao": "transacao 1"
                         }
                         """)
                 .contentType(ContentType.JSON)
@@ -93,6 +93,38 @@ public class ClientControllerTest {
                 .then()
                 .statusCode(200)
                 .body("limite", equalTo(500000),
-                "saldo",equalTo(0));
+                "saldo",equalTo(-1000));
+
+        spec
+                .when()
+                .body("""
+                        {
+                           "valor": 1000,
+                           "tipo": "d",
+                           "descricao": "transacao 2"
+                        }
+                        """)
+                .contentType(ContentType.JSON)
+                .post("/clientes/5/transacoes")
+                .then()
+                .statusCode(200)
+                .body("limite", equalTo(500000),
+                        "saldo",equalTo(-2000));
+
+        spec
+                .when()
+                .body("""
+                        {
+                           "valor": 1500,
+                           "tipo": "c",
+                           "descricao": "transacao 3"
+                        }
+                        """)
+                .contentType(ContentType.JSON)
+                .post("/clientes/5/transacoes")
+                .then()
+                .statusCode(200)
+                .body("limite", equalTo(500000),
+                        "saldo",equalTo(-500));
     }
 }

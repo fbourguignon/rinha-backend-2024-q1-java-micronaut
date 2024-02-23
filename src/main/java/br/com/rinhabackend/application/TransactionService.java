@@ -9,7 +9,8 @@ import br.com.rinhabackend.infraestructure.persistence.TransactionRepository;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 
-import java.time.LocalTime;
+
+import static br.com.rinhabackend.domain.usecase.CalculateNewBalanceUseCase.calculateNewBalance;
 
 @Singleton
 public class TransactionService {
@@ -24,10 +25,12 @@ public class TransactionService {
 
     @Transactional
     public void createTransaction(Integer clientId,Integer amount,String type,String description){
-        final Client client = clientRepository.findById(clientId)
+        final Client client = clientRepository.findByIdForUpdate(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente nao encontrado para transacionar"));
 
-        transactionRepository.save(new Transaction(null, amount, TransactionType.D, description, LocalTime.now(), client));
+        Transaction transaction = new Transaction(amount, TransactionType.valueOf(type.toUpperCase()), description, client);
 
+        clientRepository.updateBalanceById(clientId, calculateNewBalance(client,transaction));
+        transactionRepository.save(transaction);
     }
 }
