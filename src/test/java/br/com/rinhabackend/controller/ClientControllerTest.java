@@ -85,7 +85,7 @@ public class ClientControllerTest {
                         {
                            "valor": 1000,
                            "tipo": "d",
-                           "descricao": "transacao 1"
+                           "descricao": "transacao1"
                         }
                         """)
                 .contentType(ContentType.JSON)
@@ -101,7 +101,7 @@ public class ClientControllerTest {
                         {
                            "valor": 1000,
                            "tipo": "d",
-                           "descricao": "transacao 2"
+                           "descricao": "transacao2"
                         }
                         """)
                 .contentType(ContentType.JSON)
@@ -117,7 +117,7 @@ public class ClientControllerTest {
                         {
                            "valor": 1500,
                            "tipo": "c",
-                           "descricao": "transacao 3"
+                           "descricao": "transacao3"
                         }
                         """)
                 .contentType(ContentType.JSON)
