@@ -1,5 +1,5 @@
 package br.com.rinhabackend.domain.model;
 
 public enum TransactionType {
-    C,D
+    c,d
 }

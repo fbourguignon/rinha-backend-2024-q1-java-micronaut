@@ -1,5 +1,6 @@
 package br.com.rinhabackend.application;
 
+import br.com.rinhabackend.domain.exception.ClientNotFoundException;
 import br.com.rinhabackend.domain.model.Client;
 import br.com.rinhabackend.infraestructure.persistence.ClientRepository;
 import jakarta.inject.Singleton;
@@ -14,7 +15,7 @@ public class ClientService {
     }
 
     public Client getClientById(Integer id){
-        return repository.findById(id)
-                .orElseThrow();
+        return repository.findAccountWithTransactionById(id)
+                .orElseThrow(() -> new ClientNotFoundException("Cliente nao encontrado para exibir o extrato"));
     }
 }

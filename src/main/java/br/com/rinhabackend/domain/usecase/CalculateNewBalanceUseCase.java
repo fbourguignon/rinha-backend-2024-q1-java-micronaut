@@ -11,9 +11,9 @@ public class CalculateNewBalanceUseCase {
         final Integer balance = client.balance();
         final Integer limite = client.limit();
         final Integer amount = transaction.amount();
-        final Integer newBalance = transaction.type() == TransactionType.C ? balance + amount: balance - amount;
+        final Integer newBalance = transaction.type() == TransactionType.c ? balance + amount: balance - amount;
 
-        if(newBalance > limite) {
+        if(newBalance + limite < 0) {
           throw new LimitExceededException("Limite insuficiente");
         }
 

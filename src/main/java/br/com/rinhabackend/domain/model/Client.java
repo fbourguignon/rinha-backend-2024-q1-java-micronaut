@@ -9,5 +9,5 @@ import java.util.Set;
 
 @Introspected
 @MappedEntity
-public record Client(@Id Integer id, String name, Integer limit, Integer balance, @Relation(value = Relation.Kind.ONE_TO_MANY, mappedBy = "account") Set<Transaction> transactions) {
+public record Client(@Id Integer id, String name, Integer limit, Integer balance, @Relation(value = Relation.Kind.ONE_TO_MANY, mappedBy = "client") Set<Transaction> transactions) {
 }

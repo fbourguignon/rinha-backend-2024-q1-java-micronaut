@@ -1,11 +1,10 @@
 CREATE SCHEMA IF NOT EXISTS public;
 
 CREATE TABLE IF NOT EXISTS public.client (
-     id INT,
+     id INT PRIMARY KEY,
      "name" varchar(20) NULL,
      "limit" INTEGER NOT NULL,
-     balance INTEGER NOT NULL,
-     CONSTRAINT account_pkey PRIMARY KEY (id ASC)
+     balance INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.transaction (
