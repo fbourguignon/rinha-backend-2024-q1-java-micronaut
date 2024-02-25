@@ -12,7 +12,6 @@ import java.util.Optional;
 @JdbcRepository(dialect = Dialect.POSTGRES)
 public interface ClientRepository extends CrudRepository<Client, Integer> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM client where id = :id FOR UPDATE")
     Optional<Client> findByIdForUpdate(Integer id);
 
     void updateBalanceById(Integer id, Integer balance);

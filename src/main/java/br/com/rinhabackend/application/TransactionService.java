@@ -13,7 +13,6 @@ import jakarta.inject.Singleton;
 import static br.com.rinhabackend.domain.usecase.CalculateNewBalanceUseCase.calculateNewBalance;
 
 @Singleton
-@Transactional
 public class TransactionService {
 
     private final ClientRepository clientRepository;
@@ -24,6 +23,7 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    @Transactional
     public void createTransaction(Integer clientId,Integer amount,String type,String description){
         final Client client = clientRepository.findByIdForUpdate(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente nao encontrado para transacionar"));
