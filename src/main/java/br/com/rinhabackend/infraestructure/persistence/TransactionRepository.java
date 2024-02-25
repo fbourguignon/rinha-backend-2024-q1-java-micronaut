@@ -9,8 +9,9 @@ import io.micronaut.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @JdbcRepository(dialect = Dialect.POSTGRES)
-public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
+public interface TransactionRepository extends CrudRepository<Transaction, UUID> {
 
 }

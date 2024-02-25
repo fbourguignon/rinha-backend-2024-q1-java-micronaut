@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public.client (
 );
 
 CREATE TABLE IF NOT EXISTS public.transaction (
-     id SERIAL NOT NULL PRIMARY KEY,
+     id UUID NOT NULL PRIMARY KEY,
      "description" VARCHAR(10) NOT NULL,
      "type" VARCHAR(1) NOT NULL,
      amount INTEGER NOT NULL,
@@ -16,3 +16,4 @@ CREATE TABLE IF NOT EXISTS public.transaction (
      client_id INTEGER NOT NULL,
      CONSTRAINT account_id_fk FOREIGN KEY (client_id) REFERENCES public.client(id)
 );
+CREATE INDEX ON public.transaction (client_id, created_at);
