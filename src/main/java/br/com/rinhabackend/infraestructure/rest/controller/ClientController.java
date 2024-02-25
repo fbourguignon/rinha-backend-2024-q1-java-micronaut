@@ -11,6 +11,8 @@ import br.com.rinhabackend.infraestructure.rest.response.ExtractResponse;
 import br.com.rinhabackend.infraestructure.rest.response.TransactionResponse;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
 import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
@@ -18,6 +20,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Controller("/clientes")
+@ExecuteOn(TaskExecutors.BLOCKING)
 public class ClientController {
 
     private final TransactionService transactionService;

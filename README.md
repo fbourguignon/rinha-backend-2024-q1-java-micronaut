@@ -10,7 +10,6 @@
 - [x] [CockroachDB](https://www.cockroachlabs.com/docs/cockroachcloud/quickstart)
 - [x] Java 17
 - [x] Docker
-- [x] GraalVM
 
 
 ### Database
