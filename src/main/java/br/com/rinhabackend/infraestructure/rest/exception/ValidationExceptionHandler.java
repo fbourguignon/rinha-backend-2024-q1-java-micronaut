@@ -10,9 +10,11 @@ import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.server.exceptions.ExceptionHandler;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
+@Slf4j
 @Primary
 @Produces
 @Replaces(io.micronaut.validation.exceptions.ConstraintExceptionHandler.class)
@@ -21,6 +23,7 @@ public class ValidationExceptionHandler implements ExceptionHandler<ConstraintVi
 
     @Override
     public HttpResponse<ValidationErrorResponse> handle(HttpRequest request, ConstraintViolationException exception) {
+        log.error("An validation exception has occurred on execute request [{}]", exception.getMessage());
         return HttpResponse
                 .badRequest()
                 .body(new ValidationErrorResponse(exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList())));
