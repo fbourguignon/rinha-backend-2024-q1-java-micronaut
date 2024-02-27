@@ -10,6 +10,8 @@ import io.micronaut.transaction.annotation.Transactional;
 import jakarta.inject.Singleton;
 
 
+import java.util.List;
+
 import static br.com.rinhabackend.domain.usecase.CalculateNewBalanceUseCase.calculateNewBalance;
 
 @Singleton
@@ -32,5 +34,9 @@ public class TransactionService {
 
         clientRepository.updateBalanceById(clientId, calculateNewBalance(client,transaction));
         transactionRepository.save(transaction);
+    }
+
+    public List<Transaction> listAllByClientId(Integer clientId){
+        return transactionRepository.listAllByClientIdOrderByCreatedAtDesc(clientId);
     }
 }

@@ -16,4 +16,3 @@ CREATE TABLE IF NOT EXISTS public.transaction (
      client_id INTEGER NOT NULL,
      CONSTRAINT account_id_fk FOREIGN KEY (client_id) REFERENCES public.client(id)
 );
-CREATE INDEX ON public.transaction (client_id, created_at);

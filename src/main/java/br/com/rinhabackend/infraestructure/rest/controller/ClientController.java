@@ -17,10 +17,11 @@ import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller("/clientes")
-@ExecuteOn(TaskExecutors.BLOCKING)
+@ExecuteOn(TaskExecutors.IO)
 public class ClientController {
 
     private final TransactionService transactionService;
@@ -42,10 +43,11 @@ public class ClientController {
     public HttpResponse<ExtractResponse> retrieveExtract(@PathVariable(name = "id") Integer clientId){
 
         final Client client = clientService.getClientById(clientId);
+        final List<Transaction> transactions = transactionService.listAllByClientId(clientId);
 
         return HttpResponse.ok(new ExtractResponse(
                 new BalanceResponse(client.balance(), LocalDateTime.now(), client.limit()),
-                client.transactions()
+                transactions
                         .stream()
                         .sorted(Comparator.comparing(Transaction::createdAt).reversed())
                         .map(transaction -> new TransactionResponse(transaction.amount(),

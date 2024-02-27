@@ -15,7 +15,7 @@ public class ClientService {
     }
 
     public Client getClientById(Integer id){
-        return repository.findAccountWithTransactionById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente nao encontrado para exibir o extrato"));
     }
 }
