@@ -32,7 +32,9 @@ public class TransactionService {
 
         final Transaction transaction = new Transaction(amount, TransactionType.valueOf(type), description, client);
 
-        clientRepository.updateBalanceById(clientId, calculateNewBalance(client,transaction));
+        final Integer newBalance = calculateNewBalance(client,transaction);
+
+        clientRepository.updateBalanceById(clientId, newBalance);
         transactionRepository.save(transaction);
     }
 
