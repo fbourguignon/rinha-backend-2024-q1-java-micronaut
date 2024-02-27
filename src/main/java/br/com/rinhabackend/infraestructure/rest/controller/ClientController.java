@@ -33,7 +33,7 @@ public class ClientController {
 
     @Post("/{id}/transacoes")
     public HttpResponse<CreateTransactionResponse> createTransaction(@PathVariable(name = "id") Integer clientId, @Body @Valid CreateTransactionRequest request){
-        transactionService.createTransaction(clientId, request.value(),request.type(), request.description());
+        transactionService.createTransaction(clientId, request.value().intValue(),request.type(), request.description());
         final Client client = clientService.getClientById(clientId);
         return HttpResponse.ok(new CreateTransactionResponse(client.limit(), client.balance()));
     }

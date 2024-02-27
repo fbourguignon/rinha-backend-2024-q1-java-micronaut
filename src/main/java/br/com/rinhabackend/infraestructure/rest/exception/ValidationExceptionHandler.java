@@ -25,7 +25,7 @@ public class ValidationExceptionHandler implements ExceptionHandler<ConstraintVi
     public HttpResponse<ValidationErrorResponse> handle(HttpRequest request, ConstraintViolationException exception) {
         log.error("An validation exception has occurred on execute request [{}]", exception.getMessage());
         return HttpResponse
-                .badRequest()
+                .unprocessableEntity()
                 .body(new ValidationErrorResponse(exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList())));
     }
 }

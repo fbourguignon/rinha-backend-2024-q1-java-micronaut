@@ -1,16 +1,11 @@
 package br.com.rinhabackend.controller;
 
-import br.com.rinhabackend.infraestructure.rest.request.CreateTransactionRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.*;
 
-
-import java.text.MessageFormat;
 
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -36,7 +31,7 @@ public class ClientControllerTest {
                 .contentType(ContentType.JSON)
                 .post("/clientes/1/transacoes")
                 .then()
-                .statusCode(400)
+                .statusCode(422)
                 .body("errors", equalTo(asList("Tipo de transacao invalido")));
     }
 
@@ -56,13 +51,33 @@ public class ClientControllerTest {
                 .contentType(ContentType.JSON)
                 .post("/clientes/1/transacoes")
                 .then()
-                .statusCode(400)
+                .statusCode(422)
                 .body("errors", equalTo(asList("O tamanho maximo da descricao e 10 caracteres")));
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("Deve retornar um erro ao informar um tipo invalido de valor")
+    public void create_transaction_invalid_amount(RequestSpecification spec) {
+        spec
+                .when()
+                .body("""
+                        {
+                           "valor": 1.2,
+                           "tipo": "d",
+                           "descricao": "descricao"
+                        }
+                        """)
+                .contentType(ContentType.JSON)
+                .post("/clientes/1/transacoes")
+                .then()
+                .statusCode(422)
+                .body("errors", equalTo(asList("O campo deve ser um numero inteiro sem casas decimais")));
     }
 
 
     @Test
-    @Order(3)
+    @Order(4)
     @DisplayName("Deve retornar ao tentar criar uma transacao com um client que nao existe")
     public void create_transaction_account_not_exists(RequestSpecification spec) {
         spec
@@ -82,7 +97,7 @@ public class ClientControllerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     @DisplayName("Deve retornar sucesso ao criar uma transacoes")
     public void create_transactions_with_valid_data(RequestSpecification spec) {
         spec
@@ -138,7 +153,7 @@ public class ClientControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     @DisplayName("Deve retornar um erro ao criar uma transacao acima do limite")
     public void create_transaction_with_above_limit(RequestSpecification spec) {
         spec
@@ -159,7 +174,7 @@ public class ClientControllerTest {
 
 
     @Test
-    @Order(6)
+    @Order(7)
     @DisplayName("Deve retornar as ultimas 10 transacoes ao buscar o extrato com sucesso")
     public void get_extract_with_last_ten_transactions(RequestSpecification spec) throws JsonProcessingException {
 
