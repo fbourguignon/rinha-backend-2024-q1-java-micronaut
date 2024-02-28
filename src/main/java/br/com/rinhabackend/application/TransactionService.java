@@ -6,6 +6,7 @@ import br.com.rinhabackend.domain.model.Transaction;
 import br.com.rinhabackend.domain.model.TransactionType;
 import br.com.rinhabackend.infraestructure.persistence.ClientRepository;
 import br.com.rinhabackend.infraestructure.persistence.TransactionRepository;
+import io.micronaut.transaction.TransactionDefinition;
 import io.micronaut.transaction.annotation.Transactional;
 import jakarta.inject.Singleton;
 
@@ -25,9 +26,9 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    @Transactional
+    @Transactional(isolation = TransactionDefinition.Isolation.SERIALIZABLE)
     public void createTransaction(Integer clientId,Integer amount,String type,String description){
-        final Client client = clientRepository.findByIdForUpdate(clientId)
+        final Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente nao encontrado para transacionar"));
 
         final Transaction transaction = new Transaction(amount, TransactionType.valueOf(type), description, client);
