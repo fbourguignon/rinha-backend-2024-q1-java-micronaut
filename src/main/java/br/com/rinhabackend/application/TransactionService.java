@@ -28,7 +28,7 @@ public class TransactionService {
 
     @Transactional(isolation = TransactionDefinition.Isolation.SERIALIZABLE)
     public void createTransaction(Integer clientId,Integer amount,String type,String description){
-        final Client client = clientRepository.findById(clientId)
+        final Client client = clientRepository.findByIdForUpdate(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente nao encontrado para transacionar"));
 
         final Transaction transaction = new Transaction(amount, TransactionType.valueOf(type), description, client);
