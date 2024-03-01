@@ -6,9 +6,8 @@ import br.com.rinhabackend.domain.model.Transaction;
 import br.com.rinhabackend.domain.model.TransactionType;
 import br.com.rinhabackend.infraestructure.persistence.ClientRepository;
 import br.com.rinhabackend.infraestructure.persistence.TransactionRepository;
-import io.micronaut.transaction.TransactionDefinition;
-import io.micronaut.transaction.annotation.Transactional;
 import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
 
 
 import java.util.List;
