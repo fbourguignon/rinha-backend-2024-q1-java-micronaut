@@ -6,7 +6,6 @@
         <encoder>
             <pattern>%cyan(%d{HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n</pattern>
         </encoder>
-
     </appender>
 
     <root level="info">

@@ -13,32 +13,16 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor("io.micronaut.data:micronaut-data-processor")
-    annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
-    implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.flyway:micronaut-flyway")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     compileOnly("io.micronaut:micronaut-http-client")
-    compileOnly("com.fasterxml.jackson.core:jackson-databind")
     runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("org.postgresql:postgresql")
-    compileOnly("org.projectlombok:lombok")
-
-    implementation("io.micronaut.validation:micronaut-validation")
-
-    implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
-
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:testcontainers")
-    testImplementation "org.testcontainers:cockroachdb:1.18.3"
-    testImplementation("org.mockito:mockito-core")
-
+    runtimeOnly("org.postgresql:postgresql")
     testImplementation("io.micronaut:micronaut-http-client")
-    testImplementation("io.micronaut.test:micronaut-test-rest-assured")
 }
 
 
@@ -46,8 +30,8 @@ application {
     mainClass.set("br.com.rinhabackend.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion("21")
+    targetCompatibility = JavaVersion.toVersion("21")
 }
 
 
@@ -68,6 +52,9 @@ micronaut {
         incremental(true)
         annotations("br.com.rinhabackend.*")
     }
+    testResources {
+        additionalModules.add("jdbc-postgresql")
+    }
     aot {
     // Please review carefully the optimizations enabled below
     // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
@@ -81,5 +68,12 @@ micronaut {
     }
 }
 
+tasks.named("dockerfile") {
+    baseImage("eclipse-temurin:21-jre-jammy")
+}
+
+tasks.named("dockerfileNative") {
+    jdkVersion = "21"
+}
 
 

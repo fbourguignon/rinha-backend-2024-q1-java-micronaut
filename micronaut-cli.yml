@@ -3,4 +3,4 @@ defaultPackage: br.com.rinhabackend
 testFramework: junit
 sourceLanguage: java
 buildTool: gradle
-features: [app-name, data, data-jdbc, github-workflow-graal-docker-registry, gradle, http-client-test, java, java-application, jdbc-hikari, junit, logback, micronaut-aot, micronaut-build, micronaut-http-validation, netty-server, postgres, properties, readme, serialization-jackson, shade, static-resources, test-resources]
+features: [app-name, flyway, github-workflow-graal-docker-registry, graalvm, gradle, http-client-test, java, java-application, jdbc-hikari, junit, logback, micronaut-aot, micronaut-build, micronaut-http-validation, netty-server, postgres, properties, readme, serialization-jackson, shade, static-resources, test-resources]
