@@ -1,4 +1,4 @@
-name: GraalVM CE CI
+name: Java CI
 on: [push, pull_request]
 jobs:
   build:
@@ -12,13 +12,12 @@ jobs:
             ~/.gradle/wrapper
             ~/.m2/repository
           key: ${{ runner.os }}-gradle-test-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle-test-
-      - name: Setup GraalVM CE
-        uses: DeLaGuardo/setup-graalvm@3.1
+          restore-keys: |
+            ${{ runner.os }}-gradle-test-
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
         with:
-          graalvm-version: 22.3.0.java21
-      - name: Install Native Image
-        run: gu install native-image
+          java-version: 17
       - name: Docker login
         uses: docker/login-action@v1
         with:
@@ -31,5 +30,5 @@ jobs:
           DOCKER_REGISTRY_URL: ${{ secrets.DOCKER_REGISTRY_URL }}
           TESTCONTAINERS_RYUK_DISABLED: true
         run: |
-          export DOCKER_IMAGE=`echo "${DOCKER_REGISTRY_URL}/${DOCKER_REPOSITORY_PATH}/rinha-de-backend-2024-q1" | sed -e 's#//#/#' -e 's#^/##'`
-          ./gradlew check dockerPushNative --no-daemon
+          export DOCKER_IMAGE=`echo "${DOCKER_REGISTRY_URL}/${DOCKER_REPOSITORY_PATH}/rinha-backend-2024-q1-java-micronaut" | sed -e 's#//#/#' -e 's#^/##'`
+          ./gradlew check dockerPush --no-daemon
